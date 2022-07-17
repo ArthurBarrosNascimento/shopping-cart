@@ -24,6 +24,7 @@ const createProductItemElement = ({ sku, name, image }) => { // Cria a lista de 
   return section;
 };
 
+// add products in section
 const addProductItemInSection = async () => {
   const listItem = document.querySelector('.items'); // section onde vai feicar os produtos no HTML
 
