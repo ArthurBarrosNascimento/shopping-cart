@@ -43,6 +43,7 @@ const getSkuFromProductItem = (item) => item.querySelector('span.item__sku').inn
 
 const cartItemClickListener = async (event) => { // Escuta a ção de clicar em um item no carrinho;
   // coloque seu código aqui
+  event.target.remove();
 };
 
 const createCartItemElement = ({ sku, name, salePrice }) => { // Cria os elementos do carrinho;
@@ -53,7 +54,7 @@ const createCartItemElement = ({ sku, name, salePrice }) => { // Cria os element
   return li;
 };
 
-const getIdProduct = async (event) => {
+const getIdProduct = async (event) => { // busca id do produto e interage com o fetchItem.js
   const sku = getSkuFromProductItem(event.target.parentElement);
 
   const resultGetIdItem = await fetchItem(sku);
@@ -71,7 +72,7 @@ const getIdProduct = async (event) => {
   pai.appendChild(resultLi);
 };
 
-const appendProductInCartItem = async () => {
+const appendProductInCartItem = async () => { // faz o appendChild do getIdProduct no cart__items
   const btnCart = document.querySelectorAll('.item__add');
 
   btnCart.forEach((btnGet) => {
