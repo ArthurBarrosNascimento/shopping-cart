@@ -70,6 +70,8 @@ const getIdProduct = async (event) => { // busca id do produto e interage com o 
   const pai = document.querySelector('.cart__items');
 
   pai.appendChild(resultLi);
+
+  saveCartItems(resultLi.innerHTML);
 };
 
 const appendProductInCartItem = async () => { // faz o appendChild do getIdProduct no cart__items
