@@ -12,6 +12,22 @@ const reload = () => {
   pai.innerHTML = JSON.parse(getSavedCartItems());
 };
 
+const sumProductPrice = () => {
+  const liCartItem = document.getElementsByClassName('cart__item');
+  const total = document.querySelector('.total-price');
+  const prices = Array.from(liCartItem).map((product) => product.innerText.split('$')[1]);
+
+  const resultPrices = prices.reduce((acomulador, valorAtual) => {
+    let soma = acomulador;  
+
+    soma += +valorAtual;
+
+    return soma;
+  }, 0);
+
+  total.innerText = resultPrices;
+};
+
 const createProductImageElement = (imageSource) => { // Cria um elemento de imagem;
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -60,13 +76,16 @@ const cartItemClickListener = (event) => { // Escuta a ção de clicar em um ite
   event.target.remove();
 
   addLocalStorage();
+  sumProductPrice();
 };
 
 const createCartItemElement = ({ sku, name, salePrice }) => { // Cria os elementos do carrinho;
   const li = document.createElement('li');
+
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
+
   return li;
 };
 
@@ -88,6 +107,7 @@ const getIdProduct = async (event) => { // busca id do produto e interage com o 
   pai.appendChild(resultLi);
 
   addLocalStorage();
+  sumProductPrice();
 };
 
 const appendProductInCartItem = () => { // faz o appendChild do getIdProduct no cart__items
@@ -108,9 +128,23 @@ const addEventListenerOnCart = () => {
   });
 };
 
+const clearBtn = () => {
+  const ol = document.querySelector(paiString);
+  const btn = document.querySelector('.empty-cart');
+
+  btn.addEventListener('click', () => {
+    ol.innerHTML = '';
+  
+    addLocalStorage();
+    sumProductPrice();
+  });
+};
+
 window.onload = async () => { 
  await addProductItemInSection();
   appendProductInCartItem();
   reload();
   addEventListenerOnCart();
+  sumProductPrice();
+  clearBtn();
 };
