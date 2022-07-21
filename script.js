@@ -1,3 +1,17 @@
+const paiString = '.cart__items'; 
+
+const addLocalStorage = () => {
+  const pai = document.querySelector(paiString);
+
+  saveCartItems(JSON.stringify(pai.innerHTML));
+};
+
+const reload = () => {
+  const pai = document.querySelector(paiString);
+
+  pai.innerHTML = JSON.parse(getSavedCartItems());
+};
+
 const createProductImageElement = (imageSource) => { // Cria um elemento de imagem;
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -41,9 +55,11 @@ const addProductItemInSection = async () => {
 
 const getSkuFromProductItem = (item) => item.querySelector('span.item__sku').innerText; // Pega o ID de um Produto
 
-const cartItemClickListener = async (event) => { // Escuta a ção de clicar em um item no carrinho;
+const cartItemClickListener = (event) => { // Escuta a ção de clicar em um item no carrinho;
   // coloque seu código aqui
   event.target.remove();
+
+  addLocalStorage();
 };
 
 const createCartItemElement = ({ sku, name, salePrice }) => { // Cria os elementos do carrinho;
@@ -67,14 +83,14 @@ const getIdProduct = async (event) => { // busca id do produto e interage com o 
 
   const resultLi = createCartItemElement(product);
 
-  const pai = document.querySelector('.cart__items');
+  const pai = document.querySelector(paiString);
 
   pai.appendChild(resultLi);
 
-  saveCartItems(resultLi.innerHTML);
+  addLocalStorage();
 };
 
-const appendProductInCartItem = async () => { // faz o appendChild do getIdProduct no cart__items
+const appendProductInCartItem = () => { // faz o appendChild do getIdProduct no cart__items
   const btnCart = document.querySelectorAll('.item__add');
 
   btnCart.forEach((btnGet) => {
@@ -84,7 +100,17 @@ const appendProductInCartItem = async () => { // faz o appendChild do getIdProdu
   });
 };
 
+const addEventListenerOnCart = () => {
+  const cartItem = document.querySelectorAll('.cart__item');
+
+  cartItem.forEach((btn) => {
+    btn.addEventListener('click', cartItemClickListener);
+  });
+};
+
 window.onload = async () => { 
  await addProductItemInSection();
   appendProductInCartItem();
+  reload();
+  addEventListenerOnCart();
 };

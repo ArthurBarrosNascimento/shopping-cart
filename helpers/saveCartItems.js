@@ -1,7 +1,4 @@
-const saveCartItems = async (text) => {
-  // seu código aqui
-  localStorage.setItem('cartItems', text);
-};
+const saveCartItems = async (text) => localStorage.setItem('cartItems', text);
 
 if (typeof module !== 'undefined') {
   module.exports = saveCartItems;
